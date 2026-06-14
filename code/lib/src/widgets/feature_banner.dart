@@ -21,6 +21,7 @@ class FeatureBanner extends StatelessWidget {
             aspectRatio: 476 / 184,
             child: Image.asset(
               data.imagePath,
+              package: data.packageName,
               fit: BoxFit.cover,
               alignment: Alignment.center,
             ),

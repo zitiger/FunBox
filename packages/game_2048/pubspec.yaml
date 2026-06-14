@@ -1,0 +1,17 @@
+name: game_2048
+description: 2048 game package for FunBox.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  funbox_game_api:
+    path: ../funbox_game_api
+
+flutter:
+  assets:
+    - assets/images/

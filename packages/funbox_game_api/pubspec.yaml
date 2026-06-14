@@ -1,0 +1,11 @@
+name: funbox_game_api
+description: Shared game integration contracts for FunBox.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter

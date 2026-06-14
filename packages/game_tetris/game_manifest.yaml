@@ -1,0 +1,11 @@
+id: tetris
+title: 俄罗斯方块
+category: arcade
+packageName: game_tetris
+iconAsset: assets/images/icon.png
+coverAsset: assets/images/icon.png
+supportsResume: true
+supportedModes:
+  - classic
+sortOrder: 80
+enabled: true

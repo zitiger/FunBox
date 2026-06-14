@@ -1,0 +1,11 @@
+id: landlord
+title: 斗地主
+category: board
+packageName: game_landlord
+iconAsset: assets/images/icon.png
+coverAsset: assets/images/icon.png
+supportsResume: true
+supportedModes:
+  - ai
+sortOrder: 30
+enabled: true

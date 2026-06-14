@@ -1,0 +1,11 @@
+id: snake
+title: 贪吃蛇
+category: casual
+packageName: game_snake
+iconAsset: assets/images/icon.png
+coverAsset: assets/images/icon.png
+supportsResume: true
+supportedModes:
+  - endless
+sortOrder: 50
+enabled: true

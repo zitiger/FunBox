@@ -31,9 +31,30 @@ dependencies:
   flutter:
     sdk: flutter
 
+  funbox_game_api:
+    path: ../packages/funbox_game_api
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  # BEGIN GENERATED GAME PACKAGE DEPS
+  game_2048:
+    path: ../packages/game_2048
+  game_gomoku:
+    path: ../packages/game_gomoku
+  game_landlord:
+    path: ../packages/game_landlord
+  game_minesweeper:
+    path: ../packages/game_minesweeper
+  game_snake:
+    path: ../packages/game_snake
+  game_solitaire:
+    path: ../packages/game_solitaire
+  game_airplane:
+    path: ../packages/game_airplane
+  game_tetris:
+    path: ../packages/game_tetris
+  # END GENERATED GAME PACKAGE DEPS
 
 dev_dependencies:
   flutter_test:
@@ -59,16 +80,6 @@ flutter:
 
   assets:
     - assets/images/icons/
-    # BEGIN GENERATED GAME ASSETS
-    - games/2048/assets/images/
-    - games/gomoku/assets/images/
-    - games/landlord/assets/images/
-    - games/minesweeper/assets/images/
-    - games/snake/assets/images/
-    - games/solitaire/assets/images/
-    - games/airplane/assets/images/
-    - games/tetris/assets/images/
-    # END GENERATED GAME ASSETS
 
   # To add assets to your application, add an assets section, like this:
   # assets:

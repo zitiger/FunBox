@@ -7,6 +7,7 @@ class HomeFeatureCardData {
     required this.progress,
     required this.buttonLabel,
     required this.imagePath,
+    required this.packageName,
   });
 
   final String title;
@@ -14,13 +15,19 @@ class HomeFeatureCardData {
   final double progress;
   final String buttonLabel;
   final String imagePath;
+  final String packageName;
 }
 
 class RecentGameData {
-  const RecentGameData({required this.title, required this.imagePath});
+  const RecentGameData({
+    required this.title,
+    required this.imagePath,
+    required this.packageName,
+  });
 
   final String title;
   final String imagePath;
+  final String packageName;
 }
 
 class GameCategoryChipData {
@@ -37,6 +44,7 @@ class GameCardData {
     required this.categoryId,
     required this.categoryLabel,
     required this.imagePath,
+    required this.packageName,
     required this.progress,
     required this.colors,
     this.isMoreCard = false,
@@ -47,6 +55,7 @@ class GameCardData {
   final String categoryId;
   final String categoryLabel;
   final String imagePath;
+  final String packageName;
   final int progress;
   final List<Color> colors;
   final bool isMoreCard;

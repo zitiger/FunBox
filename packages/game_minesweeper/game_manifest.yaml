@@ -1,0 +1,11 @@
+id: minesweeper
+title: 扫雷
+category: puzzle
+packageName: game_minesweeper
+iconAsset: assets/images/icon.png
+coverAsset: assets/images/icon.png
+supportsResume: true
+supportedModes:
+  - classic
+sortOrder: 40
+enabled: true

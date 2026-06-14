@@ -1,0 +1,17 @@
+name: game_landlord
+description: Landlord game package for FunBox.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  funbox_game_api:
+    path: ../funbox_game_api
+
+flutter:
+  assets:
+    - assets/images/

@@ -1,0 +1,12 @@
+id: gomoku
+title: 五子棋
+category: board
+packageName: game_gomoku
+iconAsset: assets/images/icon.png
+coverAsset: assets/images/icon.png
+supportsResume: true
+supportedModes:
+  - ai
+  - local
+sortOrder: 20
+enabled: true

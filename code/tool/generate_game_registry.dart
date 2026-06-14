@@ -1,16 +1,18 @@
 import 'dart:io';
 
-const _generatedAssetStart = '# BEGIN GENERATED GAME ASSETS';
-const _generatedAssetEnd = '# END GENERATED GAME ASSETS';
+const _generatedDepsStart = '# BEGIN GENERATED GAME PACKAGE DEPS';
+const _generatedDepsEnd = '# END GENERATED GAME PACKAGE DEPS';
 
 void main(List<String> args) async {
   final options = _parseArgs(args);
-  final gamesRoot = Directory(options['games-root']!);
+  final packagesRoot = Directory(
+    options['packages-root'] ?? options['games-root']!,
+  );
   final registryOut = File(options['registry-out']!);
   final pubspecFile = File(options['pubspec']!);
 
-  if (!await gamesRoot.exists()) {
-    stderr.writeln('Games root does not exist: ${gamesRoot.path}');
+  if (!await packagesRoot.exists()) {
+    stderr.writeln('Packages root does not exist: ${packagesRoot.path}');
     exitCode = 64;
     return;
   }
@@ -21,17 +23,20 @@ void main(List<String> args) async {
     return;
   }
 
-  final packageRoot = Directory(pubspecFile.parent.path);
-  final packageName = _readPackageName(await pubspecFile.readAsString());
-  final manifests = await _scanManifests(
-    gamesRoot: gamesRoot,
-    packageRoot: packageRoot,
-  );
+  final appPackageName = _readPackageName(await pubspecFile.readAsString());
+  final appRoot = Directory(pubspecFile.parent.path);
+  final packages = await _scanPackages(packagesRoot: packagesRoot);
 
   await registryOut.parent.create(recursive: true);
-  await registryOut.writeAsString(_buildRegistrySource(packageName, manifests));
+  await registryOut.writeAsString(
+    _buildRegistrySource(appPackageName, packages),
+  );
   await pubspecFile.writeAsString(
-    _replaceGeneratedAssets(await pubspecFile.readAsString(), manifests),
+    _replaceGeneratedPackageDeps(
+      await pubspecFile.readAsString(),
+      appRoot: appRoot,
+      packages: packages,
+    ),
   );
 }
 
@@ -45,7 +50,13 @@ Map<String, String> _parseArgs(List<String> args) {
     values[key.substring(2)] = args[index + 1];
   }
 
-  for (final requiredKey in ['games-root', 'registry-out', 'pubspec']) {
+  final hasPackagesRoot = values.containsKey('packages-root');
+  final hasGamesRoot = values.containsKey('games-root');
+  if (!hasPackagesRoot && !hasGamesRoot) {
+    throw ArgumentError('Missing required --packages-root argument.');
+  }
+
+  for (final requiredKey in ['registry-out', 'pubspec']) {
     if (!values.containsKey(requiredKey)) {
       throw ArgumentError('Missing required --$requiredKey argument.');
     }
@@ -54,29 +65,38 @@ Map<String, String> _parseArgs(List<String> args) {
   return values;
 }
 
-Future<List<_ManifestRecord>> _scanManifests({
-  required Directory gamesRoot,
-  required Directory packageRoot,
+Future<List<_PackageRecord>> _scanPackages({
+  required Directory packagesRoot,
 }) async {
-  final manifests = <_ManifestRecord>[];
+  final records = <_PackageRecord>[];
 
-  await for (final entity in gamesRoot.list()) {
+  await for (final entity in packagesRoot.list()) {
     if (entity is! Directory) {
       continue;
     }
 
+    final packagePubspec = File(
+      '${entity.path}${Platform.pathSeparator}pubspec.yaml',
+    );
     final manifestFile = File(
       '${entity.path}${Platform.pathSeparator}game_manifest.yaml',
     );
-    if (!await manifestFile.exists()) {
+
+    if (!await packagePubspec.exists() || !await manifestFile.exists()) {
+      continue;
+    }
+
+    final pubspecContent = await packagePubspec.readAsString();
+    final packageName = _readPackageName(pubspecContent);
+    if (packageName == 'funbox_game_api') {
       continue;
     }
 
     final yaml = _parseManifest(await manifestFile.readAsString());
-
     final id = yaml['id']?.toString();
     final title = yaml['title']?.toString();
     final category = yaml['category']?.toString();
+    final manifestPackageName = yaml['packageName']?.toString();
     final iconAsset = yaml['iconAsset']?.toString();
     final coverAsset = yaml['coverAsset']?.toString();
     final supportsResume = _parseBool(yaml['supportsResume']);
@@ -88,6 +108,7 @@ Future<List<_ManifestRecord>> _scanManifests({
       id,
       title,
       category,
+      manifestPackageName,
       iconAsset,
       coverAsset,
       supportsResume,
@@ -100,40 +121,40 @@ Future<List<_ManifestRecord>> _scanManifests({
       );
     }
 
-    final manifestId = id!;
-    final manifestTitle = title!;
-    final manifestCategory = category!;
-    final manifestIconAsset = iconAsset!;
-    final manifestCoverAsset = coverAsset!;
-    final manifestSupportedModes = supportedModes!;
-    final manifestSortOrder = sortOrder!;
-    final manifestSupportsResume = supportsResume!;
-    final manifestEnabled = enabled!;
+    if (manifestPackageName != packageName) {
+      throw FormatException(
+        'Manifest packageName does not match pubspec name: ${manifestFile.path}',
+      );
+    }
 
-    _ensureAssetExists(packageRoot, manifestIconAsset);
-    _ensureAssetExists(packageRoot, manifestCoverAsset);
+    _ensurePackageAssetExists(entity, iconAsset!);
+    _ensurePackageAssetExists(entity, coverAsset!);
 
-    manifests.add(
-      _ManifestRecord(
-        id: manifestId,
+    records.add(
+      _PackageRecord(
+        id: id!,
+        title: title!,
+        category: category!,
         directoryName: entity.uri.pathSegments.lastWhere(
           (segment) => segment.isNotEmpty,
         ),
-        title: manifestTitle,
-        category: manifestCategory,
-        iconAsset: manifestIconAsset,
-        coverAsset: manifestCoverAsset,
-        supportsResume: manifestSupportsResume,
-        supportedModes: manifestSupportedModes,
-        sortOrder: manifestSortOrder,
-        enabled: manifestEnabled,
-        assetDeclarations: _buildAssetDeclarations(entity),
+        packageName: packageName,
+        iconAsset: iconAsset,
+        coverAsset: coverAsset,
+        supportsResume: supportsResume!,
+        supportedModes: supportedModes!,
+        sortOrder: sortOrder!,
+        enabled: enabled!,
+        packageRoot: entity,
+        hasModuleEntry: File(
+          '${entity.path}${Platform.pathSeparator}lib${Platform.pathSeparator}game_module.dart',
+        ).existsSync(),
       ),
     );
   }
 
-  manifests.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
-  return manifests;
+  records.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+  return records;
 }
 
 Map<String, Object?> _parseManifest(String content) {
@@ -198,7 +219,7 @@ bool? _parseBool(Object? value) {
 
 int? _parseInt(Object? value) => int.tryParse(value?.toString() ?? '');
 
-void _ensureAssetExists(Directory packageRoot, String assetPath) {
+void _ensurePackageAssetExists(Directory packageRoot, String assetPath) {
   final file = File(
     '${packageRoot.path}${Platform.pathSeparator}${assetPath.replaceAll('/', Platform.pathSeparator)}',
   );
@@ -219,87 +240,117 @@ String _readPackageName(String pubspecContent) {
   return match.group(1)!.trim();
 }
 
-String _replaceGeneratedAssets(
-  String content,
-  List<_ManifestRecord> manifests,
-) {
-  final start = content.indexOf(_generatedAssetStart);
-  final end = content.indexOf(_generatedAssetEnd);
+String _replaceGeneratedPackageDeps(
+  String content, {
+  required Directory appRoot,
+  required List<_PackageRecord> packages,
+}) {
+  final start = content.indexOf(_generatedDepsStart);
+  final end = content.indexOf(_generatedDepsEnd);
   if (start == -1 || end == -1 || end < start) {
-    throw FormatException('Pubspec is missing generated asset markers.');
+    throw FormatException('Pubspec is missing generated dependency markers.');
   }
 
-  final generatedLines = manifests
-      .expand((manifest) => manifest.assetDeclarations)
-      .map((assetPath) => '    - $assetPath')
+  final generatedLines = packages
+      .map((package) {
+        final relativePath = _relativePath(appRoot, package.packageRoot);
+        return '  ${package.packageName}:\n    path: $relativePath';
+      })
       .join('\n');
 
-  return '${content.substring(0, start)}$_generatedAssetStart\n$generatedLines\n    $_generatedAssetEnd${content.substring(end + _generatedAssetEnd.length)}';
+  return '${content.substring(0, start)}$_generatedDepsStart\n$generatedLines\n  $_generatedDepsEnd${content.substring(end + _generatedDepsEnd.length)}';
 }
 
-List<String> _buildAssetDeclarations(Directory gameDirectory) {
-  final assetsRoot = Directory(
-    '${gameDirectory.path}${Platform.pathSeparator}assets',
-  );
-  if (!assetsRoot.existsSync()) {
-    return const [];
+String _relativePath(Directory from, Directory to) {
+  final fromParts =
+      Uri.directory(from.absolute.path, windows: Platform.isWindows)
+          .normalizePath()
+          .pathSegments
+          .where((segment) => segment.isNotEmpty)
+          .toList();
+  final toParts = Uri.directory(to.absolute.path, windows: Platform.isWindows)
+      .normalizePath()
+      .pathSegments
+      .where((segment) => segment.isNotEmpty)
+      .toList();
+  var commonLength = 0;
+
+  while (commonLength < fromParts.length &&
+      commonLength < toParts.length &&
+      fromParts[commonLength].toLowerCase() ==
+          toParts[commonLength].toLowerCase()) {
+    commonLength += 1;
   }
 
-  final gameDirectoryName = gameDirectory.uri.pathSegments.lastWhere(
-    (segment) => segment.isNotEmpty,
-  );
-  final basePath = 'games/$gameDirectoryName/assets';
-  final declarations = <String>[];
+  final buffer = <String>[
+    for (var i = commonLength; i < fromParts.length; i += 1) '..',
+    ...toParts.skip(commonLength),
+  ];
 
-  for (final entity in assetsRoot.listSync()) {
-    if (entity is Directory) {
-      final name = entity.uri.pathSegments.lastWhere((segment) => segment.isNotEmpty);
-      declarations.add('$basePath/$name/');
-    } else if (entity is File) {
-      final name = entity.uri.pathSegments.last;
-      declarations.add('$basePath/$name');
-    }
-  }
-
-  declarations.sort();
-  return declarations;
+  return buffer.join('/');
 }
 
 String _buildRegistrySource(
-  String packageName,
-  List<_ManifestRecord> manifests,
+  String appPackageName,
+  List<_PackageRecord> packages,
 ) {
+  final moduleImports = packages
+      .where((package) => package.hasModuleEntry)
+      .map(
+        (package) =>
+            "import 'package:${package.packageName}/game_module.dart' as ${_moduleAlias(package.id)};",
+      )
+      .join('\n');
+
   final buffer = StringBuffer()
     ..writeln(
-      "import 'package:$packageName/src/platform/games/game_manifest.dart';",
+      "import 'package:$appPackageName/src/platform/games/game_manifest.dart';",
     )
     ..writeln(
-      "import 'package:$packageName/src/platform/games/game_module.dart';",
+      "import 'package:$appPackageName/src/platform/games/game_module.dart';",
     )
     ..writeln(
-      "import 'package:$packageName/src/platform/games/static_game_module.dart';",
-    )
+      "import 'package:$appPackageName/src/platform/games/static_game_module.dart';",
+    );
+
+  if (moduleImports.isNotEmpty) {
+    buffer.writeln(moduleImports);
+  }
+
+  buffer
     ..writeln()
     ..writeln('final List<GameModule> generatedGameModules = [');
 
-  for (final manifest in manifests) {
-    final modes = manifest.supportedModes
+  for (final package in packages) {
+    final modes = package.supportedModes
         .map((mode) => "'${_escape(mode)}'")
         .join(', ');
-    buffer
-      ..writeln('  const StaticGameModule(')
-      ..writeln('    manifest: GameManifest(')
-      ..writeln("      id: '${_escape(manifest.id)}',")
-      ..writeln("      title: '${_escape(manifest.title)}',")
-      ..writeln("      category: '${_escape(manifest.category)}',")
-      ..writeln("      iconAsset: '${_escape(manifest.iconAsset)}',")
-      ..writeln("      coverAsset: '${_escape(manifest.coverAsset)}',")
-      ..writeln('      supportsResume: ${manifest.supportsResume},')
+    final manifestSource = StringBuffer()
+      ..writeln('    GameManifest(')
+      ..writeln("      id: '${_escape(package.id)}',")
+      ..writeln("      title: '${_escape(package.title)}',")
+      ..writeln("      category: '${_escape(package.category)}',")
+      ..writeln("      packageName: '${_escape(package.packageName)}',")
+      ..writeln("      iconAsset: '${_escape(package.iconAsset)}',")
+      ..writeln("      coverAsset: '${_escape(package.coverAsset)}',")
+      ..writeln('      supportsResume: ${package.supportsResume},')
       ..writeln('      supportedModes: [$modes],')
-      ..writeln('      sortOrder: ${manifest.sortOrder},')
-      ..writeln('      enabled: ${manifest.enabled},')
-      ..writeln('    ),')
-      ..writeln('  ),');
+      ..writeln('      sortOrder: ${package.sortOrder},')
+      ..writeln('      enabled: ${package.enabled},')
+      ..write('    )');
+
+    if (package.hasModuleEntry) {
+      buffer
+        ..writeln('  ${_moduleAlias(package.id)}.createGameModule(')
+        ..writeln('    const ${manifestSource.toString().trimLeft()}')
+        ..writeln('  ),');
+    } else {
+      buffer
+        ..writeln('  const StaticGameModule(')
+        ..writeln('    manifest: ')
+        ..writeln(manifestSource.toString())
+        ..writeln('  ),');
+    }
   }
 
   buffer.writeln('];');
@@ -309,30 +360,45 @@ String _buildRegistrySource(
 String _escape(String value) =>
     value.replaceAll(r'\', r'\\').replaceAll("'", r"\'");
 
-class _ManifestRecord {
-  const _ManifestRecord({
+String _moduleAlias(String id) {
+  final normalized = id.replaceAll(RegExp(r'[^a-zA-Z0-9]+'), '_');
+  if (normalized.isEmpty) {
+    return 'game_module';
+  }
+  if (RegExp(r'^[0-9]').hasMatch(normalized)) {
+    return 'game_${normalized}_module';
+  }
+  return '${normalized}_module';
+}
+
+class _PackageRecord {
+  const _PackageRecord({
     required this.id,
-    required this.directoryName,
     required this.title,
     required this.category,
+    required this.directoryName,
+    required this.packageName,
     required this.iconAsset,
     required this.coverAsset,
     required this.supportsResume,
     required this.supportedModes,
     required this.sortOrder,
     required this.enabled,
-    required this.assetDeclarations,
+    required this.packageRoot,
+    required this.hasModuleEntry,
   });
 
   final String id;
-  final String directoryName;
   final String title;
   final String category;
+  final String directoryName;
+  final String packageName;
   final String iconAsset;
   final String coverAsset;
   final bool supportsResume;
   final List<String> supportedModes;
   final int sortOrder;
   final bool enabled;
-  final List<String> assetDeclarations;
+  final Directory packageRoot;
+  final bool hasModuleEntry;
 }

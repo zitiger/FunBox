@@ -38,6 +38,7 @@ class PlaceholderGamePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(28),
                   child: Image.asset(
                     manifest.coverAsset,
+                    package: manifest.packageName,
                     width: 180,
                     height: 180,
                     fit: BoxFit.cover,

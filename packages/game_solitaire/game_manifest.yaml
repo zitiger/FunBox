@@ -1,0 +1,11 @@
+id: solitaire
+title: 纸牌接龙
+category: board
+packageName: game_solitaire
+iconAsset: assets/images/icon.png
+coverAsset: assets/images/icon.png
+supportsResume: true
+supportedModes:
+  - classic
+sortOrder: 60
+enabled: true

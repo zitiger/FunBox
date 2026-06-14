@@ -67,7 +67,11 @@ class _GameCardContent extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(8),
-              child: Image.asset(data.imagePath, fit: BoxFit.contain),
+              child: Image.asset(
+                data.imagePath,
+                package: data.packageName,
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         ),

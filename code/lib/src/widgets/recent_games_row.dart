@@ -29,6 +29,7 @@ class RecentGamesRow extends StatelessWidget {
                         borderRadius: BorderRadius.circular(20),
                         child: Image.asset(
                           item.imagePath,
+                          package: item.packageName,
                           width: 64,
                           height: 64,
                           fit: BoxFit.cover,

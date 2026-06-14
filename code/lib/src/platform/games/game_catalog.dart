@@ -80,6 +80,7 @@ class GameCatalog {
       progress: (_progressByGameId[module.manifest.id] ?? 0) / 100,
       buttonLabel: module.manifest.supportsResume ? '继续游戏' : '开始游戏',
       imagePath: module.manifest.coverAsset,
+      packageName: module.manifest.packageName,
     );
   }
 
@@ -88,6 +89,7 @@ class GameCatalog {
         (module) => RecentGameData(
           title: module.manifest.title,
           imagePath: module.manifest.iconAsset,
+          packageName: module.manifest.packageName,
         ),
       )
       .toList();
@@ -127,6 +129,7 @@ class GameCatalog {
       categoryId: categoryId,
       categoryLabel: _categoryLabels[categoryId] ?? categoryId,
       imagePath: module.manifest.iconAsset,
+      packageName: module.manifest.packageName,
       progress: _progressByGameId[module.manifest.id] ?? 0,
       colors:
           _categoryColors[categoryId] ??
