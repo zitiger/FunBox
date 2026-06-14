@@ -3,6 +3,7 @@ import 'package:funbox_game_api/funbox_game_api.dart';
 
 import 'models/game_result.dart';
 import 'models/game_session.dart';
+import 'pages/game_2048_rules_page.dart';
 import 'pages/game_2048_start_page.dart';
 
 class Game2048Module extends GameModule {
@@ -18,7 +19,7 @@ class Game2048Module extends GameModule {
 
   @override
   Widget buildRuleEntry(BuildContext context) {
-    return Game2048StartPage(module: this, showRulesOnEntry: true);
+    return Game2048RulesPage(module: this);
   }
 
   @override
