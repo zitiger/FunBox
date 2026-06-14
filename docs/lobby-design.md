@@ -363,7 +363,7 @@
 
 ## 12. 与总方案文档的关系
 
-本文件是 [funbox_product_tech_plan.md](/D:/Projects/flutter/FunBox/docs/funbox_product_tech_plan.md) 中“统一大厅”部分的详细展开。它与总方案的关系如下：
+本文件是 [funbox-product-tech-plan.md](/D:/Projects/flutter/FunBox/docs/funbox-product-tech-plan.md) 中“统一大厅”部分的详细展开。它与总方案的关系如下：
 - 总方案定义大厅必须存在以及承担的总体职责。
 - 本文档定义大厅内部如何组织、如何交互、如何保持一致性。
 - 后续如果进入实现阶段，可再拆出大厅的视觉稿说明、组件清单和技术实现计划。

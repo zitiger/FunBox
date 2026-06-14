@@ -266,8 +266,8 @@ dart run tool/generate_game_registry.dart --games-root games --registry-out lib/
 ## 11. 与大厅和总方案文档的关系
 
 这份文档是以下两份文档的下位实现规范：
-- [funbox_product_tech_plan.md](/D:/Projects/flutter/FunBox/docs/funbox_product_tech_plan.md)
-- [lobby_design.md](/D:/Projects/flutter/FunBox/docs/lobby_design.md)
+- [funbox-product-tech-plan.md](/D:/Projects/flutter/FunBox/docs/funbox-product-tech-plan.md)
+- [lobby-design.md](/D:/Projects/flutter/FunBox/docs/lobby-design.md)
 
 关系如下：
 - 总方案定义“小游戏应可独立接入平台”

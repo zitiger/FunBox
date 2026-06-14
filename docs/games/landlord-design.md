@@ -1,4 +1,4 @@
-﻿# 斗地主游戏开发设计文档
+﻿# 斗地主平台接入设计文档
 
 ## 1. 概述
 
@@ -249,6 +249,7 @@ const GameLandlordModule()
 
 ## 11. 相关文档
 
-- [游戏模块规范](../game_module_spec.md)
-- [FunBox 产品技术方案](../funbox_product_tech_plan.md)
-- [大厅设计文档](../lobby_design.md)
+- [游戏模块规范](../game-module-spec.md)
+- [FunBox 产品技术方案](../funbox-product-tech-plan.md)
+- [大厅设计文档](../lobby-design.md)
+

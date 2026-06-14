@@ -35,8 +35,8 @@
 - 修改: `code/lib/src/pages/home_page.dart`
 - 修改: `code/lib/src/pages/category_page.dart`
 - 修改: `code/lib/src/pages/favorites_page.dart`
-- 修改: `docs/game_module_spec.md`
-- 修改: `docs/funbox_product_tech_plan.md`
+- 修改: `docs/game-module-spec.md`
+- 修改: `docs/funbox-product-tech-plan.md`
 
 ### 计划删除目录
 
@@ -805,9 +805,9 @@ git commit -m "chore: remove legacy game module structure"
 ### Task 9: 更新规范与总方案文档
 
 **Files:**
-- Modify: `docs/game_module_spec.md`
-- Modify: `docs/funbox_product_tech_plan.md`
-- Modify: `docs/game_package_architecture.md`
+- Modify: `docs/game-module-spec.md`
+- Modify: `docs/funbox-product-tech-plan.md`
+- Modify: `docs/game-package-architecture.md`
 
 - [ ] **Step 1: 更新小游戏模块规范文档路径**
 
@@ -854,7 +854,7 @@ code/games/<id>/
 - [ ] **Step 5: Commit**
 
 ```bash
-git add docs/game_module_spec.md docs/funbox_product_tech_plan.md docs/game_package_architecture.md
+git add docs/game-module-spec.md docs/funbox-product-tech-plan.md docs/game-package-architecture.md
 git commit -m "docs: update architecture docs for local package games"
 ```
 

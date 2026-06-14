@@ -1,4 +1,4 @@
-# FunBox 2048 接入设计文档
+# 2048 平台接入设计文档
 
 日期：2026-06-14
 
@@ -15,9 +15,9 @@
 
 本文档是以下文档的下位设计补充：
 
-- [game_module_spec.md](/D:/Projects/flutter/FunBox/docs/game_module_spec.md)
-- [funbox_product_tech_plan.md](/D:/Projects/flutter/FunBox/docs/funbox_product_tech_plan.md)
-- [lobby_design.md](/D:/Projects/flutter/FunBox/docs/lobby_design.md)
+- [game-module-spec.md](/D:/Projects/flutter/FunBox/docs/game-module-spec.md)
+- [funbox-product-tech-plan.md](/D:/Projects/flutter/FunBox/docs/funbox-product-tech-plan.md)
+- [lobby-design.md](/D:/Projects/flutter/FunBox/docs/lobby-design.md)
 
 ## 2. 设计目标
 

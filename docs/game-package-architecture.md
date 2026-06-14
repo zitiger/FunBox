@@ -394,8 +394,8 @@ import 'package:game_landlord/game_module.dart' as game_landlord;
 
 迁移到 package 化方案后，以下文档需要同步更新：
 
-- [game_module_spec.md](D:/Projects/flutter/FunBox/docs/game_module_spec.md)
-- [funbox_product_tech_plan.md](D:/Projects/flutter/FunBox/docs/funbox_product_tech_plan.md)
+- [game-module-spec.md](D:/Projects/flutter/FunBox/docs/game-module-spec.md)
+- [funbox-product-tech-plan.md](D:/Projects/flutter/FunBox/docs/funbox-product-tech-plan.md)
 
 更新重点包括：
 
