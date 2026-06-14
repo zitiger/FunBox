@@ -1,21 +1,10 @@
+import 'package:code/src/games/2048/game_2048_module.dart';
 import 'package:code/src/platform/games/game_manifest.dart';
 import 'package:code/src/platform/games/game_module.dart';
 import 'package:code/src/platform/games/static_game_module.dart';
 
 final List<GameModule> generatedGameModules = [
-  const StaticGameModule(
-    manifest: GameManifest(
-      id: '2048',
-      title: '2048',
-      category: 'puzzle',
-      iconAsset: 'games/2048/assets/images/icon.png',
-      coverAsset: 'games/2048/assets/images/icon.png',
-      supportsResume: true,
-      supportedModes: ['classic'],
-      sortOrder: 10,
-      enabled: true,
-    ),
-  ),
+  const Game2048Module(),
   const StaticGameModule(
     manifest: GameManifest(
       id: 'gomoku',

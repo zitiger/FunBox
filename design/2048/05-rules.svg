@@ -1,0 +1,73 @@
+<svg width="1290" height="2796" viewBox="0 0 1290 2796" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="40" x2="1180" y2="2720" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#06133B"/>
+      <stop offset="1" stop-color="#041032"/>
+    </linearGradient>
+    <linearGradient id="card" x1="70" y1="380" x2="1220" y2="2460" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#24326F" stop-opacity="0.96"/>
+      <stop offset="1" stop-color="#172350" stop-opacity="0.96"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="0" y2="88" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFA53C"/>
+      <stop offset="1" stop-color="#F08B1E"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1290" height="2796" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="20" stdDeviation="24" flood-color="#01081D" flood-opacity="0.42"/>
+    </filter>
+  </defs>
+
+  <rect width="1290" height="2796" rx="54" fill="url(#bg)"/>
+
+  <text x="80" y="160" fill="#F7F8FF" font-size="46" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">9:41</text>
+  <g opacity="0.95">
+    <circle cx="126" cy="306" r="40" fill="#202F66"/>
+    <path d="M142 306H110M110 306L126 290M110 306L126 322" stroke="#F2F4FF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="190" y="324" fill="#F7F8FF" font-size="72" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="700">规则说明</text>
+
+  <g filter="url(#shadow)">
+    <rect x="60" y="430" width="1170" height="2140" rx="54" fill="url(#card)" stroke="#5A6CB4" stroke-opacity="0.4" stroke-width="2"/>
+  </g>
+
+  <g>
+    <rect x="110" y="510" width="14" height="88" rx="7" fill="url(#accent)"/>
+    <text x="156" y="575" fill="#F7F8FF" font-size="56" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="700">目标</text>
+    <text x="156" y="654" fill="#C6D1F7" font-size="34" font-family="'PingFang SC','Microsoft YaHei',sans-serif">通过滑动将相同数字合并，做出 2048 方块，并继续挑战更高分数。</text>
+  </g>
+
+  <g>
+    <rect x="90" y="734" width="1110" height="344" rx="40" fill="#1B2857" stroke="#6174BE" stroke-opacity="0.34" stroke-width="2"/>
+    <text x="150" y="812" fill="#FFC56D" font-size="30" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">基本操作</text>
+    <text x="150" y="892" fill="#F3F6FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">1. 向上、下、左、右滑动，所有方块会同时朝同一方向移动</text>
+    <text x="150" y="966" fill="#F3F6FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">2. 相邻且相同的数字会在本次移动中合并一次</text>
+    <text x="150" y="1040" fill="#F3F6FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">3. 只有盘面发生变化，系统才会生成新的数字方块</text>
+  </g>
+
+  <g>
+    <rect x="110" y="1166" width="14" height="88" rx="7" fill="url(#accent)"/>
+    <text x="156" y="1230" fill="#F7F8FF" font-size="56" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="700">得分</text>
+    <text x="156" y="1306" fill="#C6D1F7" font-size="34" font-family="'PingFang SC','Microsoft YaHei',sans-serif">每次合并产生的新数字会累计到当前分数中，例如两个 32 合并成 64，会增加 64 分。</text>
+  </g>
+
+  <g>
+    <rect x="90" y="1388" width="1110" height="448" rx="40" fill="#1B2857" stroke="#6174BE" stroke-opacity="0.34" stroke-width="2"/>
+    <text x="150" y="1466" fill="#FFC56D" font-size="30" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">结束与继续</text>
+    <text x="150" y="1548" fill="#F3F6FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">1. 当盘面已满，且任意方向都无法再移动或合并时，本局结束</text>
+    <text x="150" y="1622" fill="#F3F6FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">2. 达成 2048 只会触发里程碑提示，不会强制结束当前对局</text>
+    <text x="150" y="1696" fill="#F3F6FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">3. 每次有效移动后都会自动保存，离开游戏后可以继续上局</text>
+    <text x="150" y="1770" fill="#F3F6FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">4. 点击开始新局会覆盖当前进度，不支持撤销一步</text>
+  </g>
+
+  <g>
+    <rect x="110" y="1918" width="14" height="88" rx="7" fill="url(#accent)"/>
+    <text x="156" y="1982" fill="#F7F8FF" font-size="56" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="700">小提示</text>
+  </g>
+
+  <g>
+    <rect x="90" y="2042" width="1110" height="312" rx="40" fill="#1B2857" stroke="#6174BE" stroke-opacity="0.34" stroke-width="2"/>
+    <text x="150" y="2124" fill="#F3F6FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">• 尽量把最大数字固定在一个角落，减少盘面混乱</text>
+    <text x="150" y="2198" fill="#F3F6FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">• 先保证移动方向稳定，再考虑高阶连锁合并</text>
+    <text x="150" y="2272" fill="#F3F6FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">• 如果连续两步都不能改善布局，优先保护高数值列</text>
+  </g>
+</svg>

@@ -1,0 +1,104 @@
+<svg width="1290" height="2796" viewBox="0 0 1290 2796" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="100" y1="0" x2="1190" y2="2796" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#06133B"/>
+      <stop offset="1" stop-color="#051031"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="115" y1="900" x2="1175" y2="1980" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1F2D64"/>
+      <stop offset="1" stop-color="#182554"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="0" x2="0" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF815B"/>
+      <stop offset="1" stop-color="#E55337"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="0" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFA63C"/>
+      <stop offset="1" stop-color="#F38A1A"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1290" height="2796" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="28" stdDeviation="30" flood-color="#01081D" flood-opacity="0.52"/>
+    </filter>
+  </defs>
+
+  <rect width="1290" height="2796" rx="54" fill="url(#bg)"/>
+  <rect width="1290" height="2796" rx="54" fill="#010613" fill-opacity="0.42"/>
+
+  <g opacity="0.65">
+    <rect x="120" y="520" width="1050" height="1050" rx="46" fill="#15214A" stroke="#7388D7" stroke-opacity="0.14" stroke-width="2"/>
+    <rect x="160" y="560" width="970" height="970" rx="38" fill="#26376C"/>
+    <g fill="#314275">
+      <rect x="198" y="598" width="205" height="205" rx="28"/>
+      <rect x="442" y="598" width="205" height="205" rx="28"/>
+      <rect x="686" y="598" width="205" height="205" rx="28"/>
+      <rect x="930" y="598" width="162" height="205" rx="28"/>
+      <rect x="198" y="842" width="205" height="205" rx="28"/>
+      <rect x="442" y="842" width="205" height="205" rx="28"/>
+      <rect x="686" y="842" width="205" height="205" rx="28"/>
+      <rect x="930" y="842" width="162" height="205" rx="28"/>
+      <rect x="198" y="1086" width="205" height="205" rx="28"/>
+      <rect x="442" y="1086" width="205" height="205" rx="28"/>
+      <rect x="686" y="1086" width="205" height="205" rx="28"/>
+      <rect x="930" y="1086" width="162" height="205" rx="28"/>
+      <rect x="198" y="1330" width="205" height="162" rx="28"/>
+      <rect x="442" y="1330" width="205" height="162" rx="28"/>
+      <rect x="686" y="1330" width="205" height="162" rx="28"/>
+      <rect x="930" y="1330" width="162" height="162" rx="28"/>
+    </g>
+    <rect x="198" y="598" width="205" height="205" rx="28" fill="#E6A137"/>
+    <rect x="442" y="598" width="205" height="205" rx="28" fill="#4A92E6"/>
+    <rect x="686" y="598" width="205" height="205" rx="28" fill="#37A29B"/>
+    <rect x="930" y="598" width="162" height="205" rx="28" fill="#EF6736"/>
+    <rect x="198" y="842" width="205" height="205" rx="28" fill="#D85B3D"/>
+    <rect x="442" y="842" width="205" height="205" rx="28" fill="#C88634"/>
+    <rect x="686" y="842" width="205" height="205" rx="28" fill="#E5C26A"/>
+    <rect x="930" y="842" width="162" height="205" rx="28" fill="#F4B44B"/>
+    <rect x="198" y="1086" width="205" height="205" rx="28" fill="#4A92E6"/>
+    <rect x="442" y="1086" width="205" height="205" rx="28" fill="#37A29B"/>
+    <rect x="686" y="1086" width="205" height="205" rx="28" fill="#EF6736"/>
+    <rect x="930" y="1086" width="162" height="205" rx="28" fill="#D85B3D"/>
+    <rect x="198" y="1330" width="205" height="162" rx="28" fill="#C88634"/>
+    <rect x="442" y="1330" width="205" height="162" rx="28" fill="#E5C26A"/>
+    <rect x="686" y="1330" width="205" height="162" rx="28" fill="#F4B44B"/>
+    <rect x="930" y="1330" width="162" height="162" rx="28" fill="#D0C7AE"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="115" y="930" width="1060" height="1060" rx="56" fill="url(#panel)" stroke="#7A8DD8" stroke-opacity="0.36" stroke-width="2"/>
+  </g>
+
+  <g>
+    <circle cx="645" cy="1090" r="108" fill="#2D3D74"/>
+    <circle cx="645" cy="1090" r="88" fill="url(#red)"/>
+    <path d="M610 1055L680 1125M680 1055L610 1125" stroke="#FFF5F2" stroke-width="16" stroke-linecap="round"/>
+  </g>
+
+  <text x="645" y="1290" text-anchor="middle" fill="#F7F8FF" font-size="78" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="700">本局结束</text>
+  <text x="645" y="1368" text-anchor="middle" fill="#B7C4F2" font-size="36" font-family="'PingFang SC','Microsoft YaHei',sans-serif">已经没有可合并或可移动的方块了</text>
+
+  <g>
+    <rect x="195" y="1446" width="900" height="250" rx="40" fill="#121D47"/>
+    <rect x="235" y="1490" width="250" height="162" rx="28" fill="#223160"/>
+    <text x="275" y="1544" fill="#97A9E4" font-size="28" font-family="'PingFang SC','Microsoft YaHei',sans-serif">最终分数</text>
+    <text x="275" y="1630" fill="#F7F8FF" font-size="82" font-family="'SF Pro Display','PingFang SC',sans-serif" font-weight="700">18,920</text>
+
+    <rect x="520" y="1490" width="250" height="162" rx="28" fill="#223160"/>
+    <text x="560" y="1544" fill="#97A9E4" font-size="28" font-family="'PingFang SC','Microsoft YaHei',sans-serif">最大方块</text>
+    <text x="560" y="1630" fill="#F7F8FF" font-size="82" font-family="'SF Pro Display','PingFang SC',sans-serif" font-weight="700">1024</text>
+
+    <rect x="805" y="1490" width="250" height="162" rx="28" fill="#223160"/>
+    <text x="845" y="1544" fill="#97A9E4" font-size="28" font-family="'PingFang SC','Microsoft YaHei',sans-serif">游戏时长</text>
+    <text x="845" y="1630" fill="#F7F8FF" font-size="72" font-family="'SF Pro Display','PingFang SC',sans-serif" font-weight="700">09:42</text>
+  </g>
+
+  <g>
+    <rect x="195" y="1762" width="900" height="120" rx="60" fill="url(#orange)"/>
+    <text x="645" y="1840" text-anchor="middle" fill="#FFFFFF" font-size="44" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="700">再来一局</text>
+
+    <rect x="195" y="1914" width="430" height="120" rx="60" fill="#263568" stroke="#6579C7" stroke-opacity="0.44" stroke-width="2"/>
+    <text x="410" y="1992" text-anchor="middle" fill="#EEF2FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">查看规则</text>
+
+    <rect x="665" y="1914" width="430" height="120" rx="60" fill="#263568" stroke="#6579C7" stroke-opacity="0.44" stroke-width="2"/>
+    <text x="880" y="1992" text-anchor="middle" fill="#EEF2FF" font-size="40" font-family="'PingFang SC','Microsoft YaHei',sans-serif" font-weight="600">返回大厅</text>
+  </g>
+</svg>
