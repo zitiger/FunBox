@@ -1,0 +1,10 @@
+id: airplane
+title: 飞机大战
+category: arcade
+iconAsset: games/airplane/assets/images/icon.png
+coverAsset: games/airplane/assets/images/icon.png
+supportsResume: true
+supportedModes:
+  - classic
+sortOrder: 70
+enabled: true

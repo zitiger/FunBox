@@ -1,0 +1,10 @@
+id: 2048
+title: 2048
+category: puzzle
+iconAsset: games/2048/assets/images/icon.png
+coverAsset: games/2048/assets/images/icon.png
+supportsResume: true
+supportedModes:
+  - classic
+sortOrder: 10
+enabled: true
