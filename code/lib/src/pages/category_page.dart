@@ -63,13 +63,26 @@ class _CategoryPageState extends State<CategoryPage> {
                   mainAxisSpacing: 14,
                   childAspectRatio: 0.74,
                 ),
-                itemBuilder: (context, index) =>
-                    GameGridCard(data: cards[index]),
+                itemBuilder: (context, index) {
+                  final card = cards[index];
+                  return GameGridCard(
+                    data: card,
+                    onTap: () => _navigateToGame(context, card.gameId),
+                  );
+                },
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _navigateToGame(BuildContext context, String gameId) {
+    final module = widget.catalog.byId(gameId);
+    if (module == null) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => module.buildStartPage(context)),
     );
   }
 }

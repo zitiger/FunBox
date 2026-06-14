@@ -45,11 +45,17 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   const HomeHeader(),
                   const SizedBox(height: 20),
-                  FeatureBanner(data: widget.catalog.featureCard),
+                  FeatureBanner(
+                    data: widget.catalog.featureCard,
+                    onTap: () => _navigateToGame(context, widget.catalog.featuredGame.manifest.id),
+                  ),
                   const SizedBox(height: 24),
                   const _SectionHeader(title: '最近游玩', actionLabel: '查看全部'),
                   const SizedBox(height: 14),
-                  RecentGamesRow(items: widget.catalog.recentGames),
+                  RecentGamesRow(
+                    items: widget.catalog.recentGames,
+                    onGameTap: (title) => _navigateToGameByTitle(context, title),
+                  ),
                   const SizedBox(height: 22),
                   CategoryChips(
                     items: categoryChips,
@@ -73,7 +79,11 @@ class _HomePageState extends State<HomePage> {
                           childAspectRatio: 0.68,
                         ),
                     itemBuilder: (context, index) {
-                      return GameGridCard(data: filteredCards[index]);
+                      final card = filteredCards[index];
+                      return GameGridCard(
+                        data: card,
+                        onTap: () => _navigateToGame(context, card.gameId),
+                      );
                     },
                   ),
                 ],
@@ -87,6 +97,24 @@ class _HomePageState extends State<HomePage> {
 
   List<GameCardData> _filteredCards() {
     return widget.catalog.cardsForCategory(selectedCategoryId);
+  }
+
+  void _navigateToGame(BuildContext context, String gameId) {
+    final module = widget.catalog.byId(gameId);
+    if (module == null) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => module.buildStartPage(context)),
+    );
+  }
+
+  void _navigateToGameByTitle(BuildContext context, String title) {
+    final module = widget.catalog.modules
+        .where((m) => m.manifest.title == title)
+        .firstOrNull;
+    if (module == null) return;
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => module.buildStartPage(context)),
+    );
   }
 }
 
