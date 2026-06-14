@@ -249,6 +249,6 @@ const GameLandlordModule()
 
 ## 11. 相关文档
 
-- [游戏模块规范](../docs/game_module_spec.md)
-- [FunBox 产品技术方案](../docs/funbox_product_tech_plan.md)
-- [大厅设计文档](../docs/lobby_design.md)
+- [游戏模块规范](../game_module_spec.md)
+- [FunBox 产品技术方案](../funbox_product_tech_plan.md)
+- [大厅设计文档](../lobby_design.md)
