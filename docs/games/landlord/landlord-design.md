@@ -5,7 +5,7 @@
 在 FunBox 平台中实现完整的斗地主（Fight the Landlord）小游戏模块。
 - **模式**：1 人类玩家 + 2 AI 对手
 - **牌型**：完整标准牌型（10种）
-- **地主**：随机分配
+- **地主**：叫分制（叫分最高者当地主）
 - **AI 强度**：中等（能管则管、炸弹保留、阻止策略）
 
 ## 2. 文件结构
@@ -23,15 +23,18 @@ code/lib/src/games/landlord/
 │   └── card.dart                        # 牌面模型 + 牌堆工具
 ├── logic/
 │   ├── card_pattern.dart                # 牌型枚举 + 识别 + 比较规则
-│   ├── game_engine.dart                 # 核心引擎（发牌、回合、胜负判定）
-│   └── ai_strategy.dart                 # AI 出牌决策
+│   ├── game_engine.dart                 # 核心引擎（发牌、叫地主、出牌、胜负判定）
+│   ├── ai_strategy.dart                 # AI 出牌决策
+│   └── ai_bidding.dart                  # AI 叫地主决策
 ├── pages/
 │   ├── landlord_start_page.dart         # 开始页（新局 / 继续 / 规则）
+│   ├── landlord_bid_page.dart           # 叫地主页（叫分界面）
 │   └── landlord_play_page.dart          # 主游戏页（三栏布局 + 手牌交互）
 └── widgets/
     ├── card_widget.dart                 # 单张牌组件（程序化绘制）
     ├── player_hand_widget.dart          # 底部手牌区（横向排列 + 选择交互）
-    └── opponent_area_widget.dart        # AI 对手区域（牌背 + 头像 + 剩余张数）
+    ├── opponent_area_widget.dart        # AI 对手区域（牌背 + 头像 + 剩余张数）
+    └── bid_controls_widget.dart         # 叫分按钮组（1分/2分/3分/不叫）
 ```
 
 ## 3. 数据结构
@@ -55,7 +58,7 @@ code/lib/src/games/landlord/
 class GameSession {
   List<Card> playerHand;          // 玩家手牌
   int playerIndex;                // 0=人类, 1=AI左, 2=AI右
-  int landlordIndex;              // 地主编号
+  int landlordIndex;              // 地主编号（-1=未确定）
   List<Card> holeCards;           // 底牌（3张）
   List<int> cardCounts;           // 三人剩余牌数
   int currentTurn;                // 当前回合玩家编号
@@ -67,13 +70,20 @@ class GameSession {
   int winnerIndex;                // 获胜者编号（-1=未结束）
   int startTimeMs;                // 开始时间
   int elapsedMs;                  // 已用时间
+
+  // 叫地主相关
+  int firstBidder;                // 首个叫牌者编号
+  List<int> bidHistory;           // 叫分历史 [玩家0的叫分, 玩家1的叫分, ...]
+  int highestBid;                 // 当前最高叫分（1/2/3）
+  int highestBidder;              // 当前最高叫分者编号（-1=无人叫）
+  bool biddingOver;              // 叫地主是否结束
 }
 ```
 
 ### 3.3 游戏阶段 (GamePhase)
 
 ```dart
-enum GamePhase { dealing, playing, finished }
+enum GamePhase { dealing, bidding, playing, finished }
 ```
 
 ## 4. 牌型系统（10 种完整牌型）
@@ -108,25 +118,43 @@ enum GamePhase { dealing, playing, finished }
 ```
 开始
   ├─ 洗牌 54 张
-  ├─ 随机确定地主（0/1/2）
+  ├─ 随机确定首个叫牌者（0/1/2）
   ├─ 每人发 17 张，剩下 3 张为底牌
-  ├─ 地主获得底牌
+  ├─ 进入叫地主阶段：
+  │    按逆时针轮流叫分（1分/2分/3分/不叫）
+  │    叫分必须大于前面最高分
+  │    叫分最高者成为地主
+  │    若三家都不叫，重新发牌
+  ├─ 地主获得底牌（手牌变为20张）
   ├─ 地主先出牌
   └─ 进入回合循环：
        ├─ 当前玩家操作：出牌 或 不出(Pass)
        ├─ 出牌 → 校验牌型 + 比较大小 → 更新 lastPlay
        ├─ 不出 → lastPlay 不变（若连续 2 人不出，lastPlay 清空）
-       ├─ 某玩家手牌清空 → 该玩家获胜
+       ├─ 某玩家手牌清空 → 该玩家所在阵营获胜
        └─ 换下一位玩家
 ```
 
-### 5.1 "不出"连续两轮规则
+### 5.1 叫地主规则
+
+| 规则 | 说明 |
+|------|------|
+| 叫分选项 | 1分、2分、3分、不叫 |
+| 叫分约束 | 必须大于前面已叫最高分 |
+| 地主确定 | 叫分最高者获得底牌（20张） |
+| 无人叫分 | 三家都不叫则重新发牌 |
+
+### 5.2 "不出"连续两轮规则
 
 当 Player A 出牌后，Player B 不出，Player C 也不出：
 - `lastPlay` 清空（新回合）
 - Player A 重新自由出牌
 
 ## 6. AI 策略
+
+AI 决策分为**叫地主**与**出牌**两部分：
+- **叫地主**：根据手牌牌力评估决定叫分策略（详见 `landlord-rule.md`）
+- **出牌**：分为主动出牌与被动跟牌，遵循"高效走牌、控制权管理"原则
 
 ### 6.1 决策流程
 
@@ -238,11 +266,13 @@ const GameLandlordModule()
 ## 10. 验收标准
 
 - [ ] 启动游戏 → 正常发牌 17+17+17+3
+- [ ] 叫地主阶段正常：按顺序叫分、叫分约束、三家不叫重新发牌
 - [ ] 地主获得底牌后手牌 20 张
 - [ ] 所有 10 种牌型正确识别和比较
+- [ ] AI 自动叫地主（根据牌力评估）
 - [ ] AI 自动出牌，不出时不卡死
 - [ ] 连续两人不出 → 回合重置
-- [ ] 某方出完 → 显示胜负结果
+- [ ] 某方出完 → 显示胜负结果（地主/农民阵营）
 - [ ] "不出"按钮和"提示"按钮功能正常
 - [ ] 存档恢复正常
 - [ ] `dart run tool/generate_game_registry.dart` 成功更新注册表
