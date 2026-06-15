@@ -10,5 +10,6 @@ class AppTheme {
   static const Color accentSoft = Color(0xFFFFC65C);
   static const Color textPrimary = Color(0xFFF7F4F0);
   static const Color textSecondary = Color(0xFFB5B8D6);
+  static const Color textTertiary = Color(0xFF8892B8);
   static const Color success = Color(0xFF2BD0A5);
 }

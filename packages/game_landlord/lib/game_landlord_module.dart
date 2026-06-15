@@ -3,6 +3,7 @@ import 'package:funbox_game_api/funbox_game_api.dart';
 
 import 'logic/game_engine.dart';
 import 'pages/landlord_start_page.dart';
+import 'pages/landlord_rules_page.dart';
 
 class GameLandlordModule extends GameModule {
   const GameLandlordModule({required this.manifest});
@@ -17,7 +18,7 @@ class GameLandlordModule extends GameModule {
 
   @override
   Widget buildRuleEntry(BuildContext context) {
-    return LandlordStartPage(module: this, showRulesOnEntry: true);
+    return LandlordRulesPage(module: this);
   }
 
   @override

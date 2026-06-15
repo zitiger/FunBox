@@ -74,30 +74,92 @@ class CardWidget extends StatelessWidget {
   }
 
   Widget _buildCardFace() {
+    final rankSize = card.isJoker ? width * 0.18 : width * 0.28;
+    final suitSize = card.isJoker ? width * 0.15 : width * 0.18;
+    final centerSize = card.isJoker ? width * 0.2 : width * 0.42;
+
     return Padding(
-      padding: const EdgeInsets.all(3),
+      padding: const EdgeInsets.fromLTRB(4, 3, 4, 3),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            '${card.suitLabel}${card.rankLabel}',
-            style: TextStyle(
-              color: suitColor,
-              fontSize: card.isJoker ? 9 : 11,
-              fontWeight: FontWeight.w800,
-              height: 1.1,
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    card.rankLabel,
+                    style: TextStyle(
+                      color: suitColor,
+                      fontSize: rankSize,
+                      fontWeight: FontWeight.w900,
+                      height: 1,
+                    ),
+                  ),
+                  if (!card.isJoker)
+                    Text(
+                      card.suitLabel,
+                      style: TextStyle(
+                        color: suitColor,
+                        fontSize: suitSize,
+                        fontWeight: FontWeight.w800,
+                        height: 1,
+                      ),
+                    ),
+                ],
+              ),
+              const Spacer(),
+              if (card.isJoker)
+                Text(
+                  card.rank == PlayingCard.rankBigJoker ? 'BJ' : 'SJ',
+                  style: TextStyle(
+                    color: suitColor,
+                    fontSize: width * 0.13,
+                    fontWeight: FontWeight.w800,
+                    height: 1,
+                  ),
+                ),
+            ],
           ),
           Expanded(
             child: Center(
-              child: Text(
-                card.isJoker ? 'JOKER' : card.suitLabel,
-                style: TextStyle(
-                  color: suitColor,
-                  fontSize: card.isJoker ? 13 : 22,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
+              child: card.isJoker
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'JOKER',
+                          style: TextStyle(
+                            color: suitColor,
+                            fontSize: width * 0.18,
+                            fontWeight: FontWeight.w900,
+                            height: 1,
+                          ),
+                        ),
+                        Text(
+                          card.rank == PlayingCard.rankBigJoker
+                              ? 'BIG'
+                              : 'SMALL',
+                          style: TextStyle(
+                            color: suitColor,
+                            fontSize: width * 0.11,
+                            fontWeight: FontWeight.w800,
+                            height: 1,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      card.suitLabel,
+                      style: TextStyle(
+                        color: suitColor,
+                        fontSize: centerSize,
+                        fontWeight: FontWeight.w900,
+                        height: 1,
+                      ),
+                    ),
             ),
           ),
         ],

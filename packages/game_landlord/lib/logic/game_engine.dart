@@ -121,6 +121,12 @@ class GameSession {
 }
 
 class GameEngine {
+  static void sortHands(GameSession session) {
+    for (int i = 0; i < session.hands.length; i++) {
+      session.hands[i] = CardDeck.sortByRankDescending(session.hands[i]);
+    }
+  }
+
   static GameSession createNewGame() {
     final deck = CardDeck.createFullDeck();
     CardDeck.shuffle(deck);
@@ -133,7 +139,10 @@ class GameEngine {
     final holeCards = deck.sublist(51, 54);
 
     for (final h in hands) {
-      CardDeck.sortByRank(h);
+      final sortedHand = CardDeck.sortByRankDescending(h);
+      h
+        ..clear()
+        ..addAll(sortedHand);
     }
 
     final rng = Random();
@@ -141,7 +150,7 @@ class GameEngine {
     final landlordIndex = rng.nextInt(3);
 
     hands[landlordIndex].addAll(holeCards);
-    CardDeck.sortByRank(hands[landlordIndex]);
+    hands[landlordIndex] = CardDeck.sortByRankDescending(hands[landlordIndex]);
 
     return GameSession(
       hands: hands,
@@ -190,6 +199,9 @@ class GameEngine {
       );
       if (idx != -1) playerHand.removeAt(idx);
     }
+    session.hands[session.currentTurn] = CardDeck.sortByRankDescending(
+      playerHand,
+    );
 
     session.lastPlay = cards;
     session.lastPlayPlayer = session.currentTurn;

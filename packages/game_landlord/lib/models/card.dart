@@ -101,4 +101,14 @@ class CardDeck {
     });
     return sorted;
   }
+
+  static List<PlayingCard> sortByRankDescending(List<PlayingCard> cards) {
+    final sorted = List<PlayingCard>.from(cards);
+    sorted.sort((a, b) {
+      final rankCmp = b.rank.compareTo(a.rank);
+      if (rankCmp != 0) return rankCmp;
+      return a.suit.index.compareTo(b.suit.index);
+    });
+    return sorted;
+  }
 }
